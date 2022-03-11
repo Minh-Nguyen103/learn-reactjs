@@ -5,11 +5,19 @@ import SongFeature from './features/Song';
 import TodoFeature from './features/Todo';
 import NotFound from './components/NotFound';
 import CounterFeature from './features/Counter';
+import styled from 'styled-components';
+
+const Title = styled.h1`
+  text-align: center;
+  font-weight: bold;
+
+  color: ${(props) => props.color || 'green'};
+`;
 
 function App() {
   return (
     <div className="App">
-      Header
+      <Title color="goldenrod">HEADING</Title>
       <p>
         <NavLink to="/todos" activeClassName="active-menu">
           Todos
