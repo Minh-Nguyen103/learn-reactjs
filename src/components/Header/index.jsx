@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import FaceIcon from '@material-ui/icons/Face';
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import Register from '../../features/Auth/components/Register';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,8 +37,10 @@ export default function Header() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (event, reason) => {
+    if (reason !== 'backdropClick') {
+      setOpen(false);
+    }
   };
 
   return (
@@ -67,16 +70,12 @@ export default function Header() {
 
       <Dialog
         disableEscapeKeyDown
-        disableBackdropClick
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText>
+          <Register />
         </DialogContent>
 
         <DialogActions>
