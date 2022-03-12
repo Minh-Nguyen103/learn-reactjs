@@ -1,12 +1,15 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import FaceIcon from '@material-ui/icons/Face';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,10 +21,24 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  link: {
+    textDecoration: 'none',
+    color: '#fff',
+  },
 }));
 
 export default function Header() {
   const classes = useStyles();
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
@@ -30,14 +47,44 @@ export default function Header() {
           <FaceIcon className={classes.menuButton} />
 
           <Typography variant="h6" className={classes.title}>
-            Minh Nguyên Shop
+            <Link to="/" className={classes.link}>
+              MINH NGUYÊN SHOP
+            </Link>
           </Typography>
 
-          <Button color="inherit">Todos</Button>
-          <Button color="inherit">Albums</Button>
-          <Button color="inherit">Login</Button>
+          <NavLink to="/todos" className={classes.link}>
+            <Button color="inherit">Todos</Button>
+          </NavLink>
+
+          <NavLink to="/albums" className={classes.link}>
+            <Button color="inherit">Albums</Button>
+          </NavLink>
+          <Button onClick={handleClickOpen} color="inherit">
+            Register
+          </Button>
         </Toolbar>
       </AppBar>
+
+      <Dialog
+        disableEscapeKeyDown
+        disableBackdropClick
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here. We will send updates
+            occasionally.
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
