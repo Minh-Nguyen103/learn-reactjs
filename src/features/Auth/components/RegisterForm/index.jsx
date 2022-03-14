@@ -7,6 +7,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import InputField from '../../../../components/Form-controls/InputField';
+import PasswordField from '../../../../components/Form-controls/PasswordField';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +37,12 @@ function RegisterForm(props) {
   const classes = useStyles();
 
   const schema = yup.object().shape({
-    title: yup.string().required('Please enter title'),
+    fullName: yup
+      .string()
+      .required('Please enter your full name')
+      .test('should has at least two words', 'Please enter at least two words', (value) => {
+        return value.split(' ').length >= 2;
+      }),
   });
 
   const form = useForm({
@@ -70,10 +76,16 @@ function RegisterForm(props) {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="fullName" label="Full Name" form={form} />
         <InputField name="email" label="Email" form={form} />
-        <InputField name="password" label="Password" form={form} />
-        <InputField name="retypePassword" label="Retype Password" form={form} />
+        <PasswordField name="password" label="Password" form={form} />
+        <PasswordField name="retypePassword" label="Retype Password" form={form} />
 
-        <Button className={classes.submit} color="primary" variant="contained" fullWidth>
+        <Button
+          type="submit"
+          className={classes.submit}
+          color="primary"
+          variant="contained"
+          fullWidth
+        >
           Create an account
         </Button>
       </form>
