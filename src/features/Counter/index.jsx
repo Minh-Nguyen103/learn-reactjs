@@ -33,7 +33,8 @@ function CounterFeature(props) {
 
   const handleDecreaseClick = () => {
     const action = decrease();
-    dispatch(action);
+    console.log(action);
+    // const a = dispatch(action);
   };
   return (
     <div className={styles.counter}>
