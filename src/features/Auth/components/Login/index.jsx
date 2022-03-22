@@ -1,10 +1,9 @@
 import { unwrapResult } from '@reduxjs/toolkit';
-import { register, login } from 'features/Auth/userSlice';
+import { login } from 'features/Auth/userSlice';
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import RegisterForm from '../RegisterForm';
-import { useSnackbar } from 'notistack';
 import LoginForm from '../LoginForm';
 
 Login.propTypes = {
