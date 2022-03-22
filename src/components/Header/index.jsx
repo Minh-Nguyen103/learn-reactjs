@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Close } from '@material-ui/icons';
 import FaceIcon from '@material-ui/icons/Face';
+import Login from 'features/Auth/components/Login';
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Register from '../../features/Auth/components/Register';
@@ -89,7 +90,8 @@ export default function Header() {
         </IconButton>
 
         <DialogContent>
-          <Register closeDialog={handleClose} />
+          {/* <Register closeDialog={handleClose} /> */}
+          <Login closeDialog={handleClose} />
         </DialogContent>
       </Dialog>
     </div>
