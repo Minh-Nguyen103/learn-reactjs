@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Avatar, Button, Typography } from '@material-ui/core';
+import { Avatar, Button, LinearProgress, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LockOutlined } from '@material-ui/icons';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import PasswordField from '../../../../components/Form-controls/PasswordField';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'relative',
     padding: theme.spacing(4),
   },
 
@@ -26,6 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
   submit: {
     margin: theme.spacing(3, 0, 2, 0),
+  },
+
+  progress: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: 0,
+    right: 0,
   },
 }));
 
@@ -70,16 +78,19 @@ function RegisterForm(props) {
     resolver: yupResolver(schema),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
 
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
-    form.reset();
   };
+
+  const { isSubmitting } = form.formState;
   return (
     <div className={classes.root}>
+      {isSubmitting && <LinearProgress className={classes.progress} />}
+
       <Avatar className={classes.avatar}>
         <LockOutlined></LockOutlined>
       </Avatar>
@@ -100,6 +111,7 @@ function RegisterForm(props) {
           color="primary"
           variant="contained"
           fullWidth
+          size="large"
         >
           Create an account
         </Button>
