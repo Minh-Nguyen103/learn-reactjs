@@ -1,4 +1,5 @@
 // import "./App.css";
+import ProductFeature from 'features/products';
 import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
@@ -19,6 +20,7 @@ function App() {
         <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={SongFeature} />
+        <Route path="/products" component={ProductFeature} />
 
         <Route component={NotFound} />
       </Switch>
