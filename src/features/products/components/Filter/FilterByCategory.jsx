@@ -1,14 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import categoriApi from 'api/categoryApi';
-import { Box, Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
+import FilterSkeletonList from './FilterSkeletonList';
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+
+  menu: {
+    padding: 0,
+    margin: 0,
+    listStyleType: 'none',
+    '& > li': {
+      marginTop: theme.spacing(1),
+
+      '&:hover': {
+        cursor: 'pointer',
+        color: theme.palette.primary.dark,
+      },
+    },
+  },
+}));
+
 function FilterByCategory({ onChange }) {
   const [categoryList, setCategoryList] = useState([]);
+  const classes = useStyles();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -20,10 +43,11 @@ function FilterByCategory({ onChange }) {
             name: x.name,
           }))
         );
-        console.log({ list });
       } catch (error) {
         console.log('Fail to fetch category list', error);
       }
+
+      setLoading(false);
     })();
   }, []);
 
@@ -34,17 +58,23 @@ function FilterByCategory({ onChange }) {
   };
 
   return (
-    <Box>
-      <Typography>Danh mục sản phẩm</Typography>
+    <div>
+      {loading ? (
+        <FilterSkeletonList length={6} />
+      ) : (
+        <Box className={classes.root}>
+          <Typography variant="subtitle2">Danh mục sản phẩm</Typography>
 
-      <ul>
-        {categoryList.map((category) => (
-          <li key={category.id} onClick={() => handleCategoryClick(category)}>
-            {category.name}
-          </li>
-        ))}
-      </ul>
-    </Box>
+          <ul className={classes.menu}>
+            {categoryList.map((category) => (
+              <li key={category.id} onClick={() => handleCategoryClick(category)}>
+                <Typography variant="body2">{category.name}</Typography>
+              </li>
+            ))}
+          </ul>
+        </Box>
+      )}
+    </div>
   );
 }
 

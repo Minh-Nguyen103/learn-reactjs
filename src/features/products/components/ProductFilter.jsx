@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import FilterByCategory from './Filter/FilterByCategory';
 import { Box } from '@material-ui/core';
 import FilterByPrice from './Filter/FilterByPrice';
+import FilterSkeletonList from './Filter/FilterSkeletonList';
 
 ProductFilter.propTypes = {
   onChange: PropTypes.func.isRequired,
   filter: PropTypes.object,
 };
 
-function ProductFilter({ onChange, filter }) {
+function ProductFilter({ onChange, filter, loading }) {
   const handleCategoryChange = (newCategoryId) => {
     if (!onChange) return;
 
