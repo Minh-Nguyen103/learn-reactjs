@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import FilterByCategory from './Filter/FilterByCategory';
 import { Box } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React from 'react';
+import FilterByCategory from './Filter/FilterByCategory';
 import FilterByPrice from './Filter/FilterByPrice';
-import FilterSkeletonList from './Filter/FilterSkeletonList';
 
 ProductFilter.propTypes = {
   onChange: PropTypes.func.isRequired,
@@ -15,12 +14,15 @@ function ProductFilter({ onChange, filter, loading }) {
     if (!onChange) return;
 
     const newFilter = {
-      ...filter,
       'category.id': newCategoryId,
     };
     onChange(newFilter);
   };
-  const handlePriceChange = () => {};
+  const handlePriceChange = (values) => {
+    if (onChange) {
+      onChange(values);
+    }
+  };
 
   return (
     <Box>
