@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import categoriApi from 'api/categoryApi';
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import categoriApi from 'api/categoryApi';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import FilterSkeletonList from './FilterSkeletonList';
 
 FilterByCategory.propTypes = {
@@ -52,9 +52,11 @@ function FilterByCategory({ onChange }) {
   }, []);
 
   const handleCategoryClick = (category) => {
-    if (onChange) {
-      onChange(category.id);
-    }
+    if (!onChange) return;
+
+    localStorage.clear();
+    localStorage.setItem('categoryName', categoryList.find((x) => category.id === x.id).name);
+    onChange(category.id);
   };
 
   return (

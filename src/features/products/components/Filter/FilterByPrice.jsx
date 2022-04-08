@@ -47,6 +47,11 @@ function FilterByPrice({ onChange }) {
     if (onChange) {
       onChange(value);
     }
+
+    setValue({
+      salePrice_gte: 0,
+      salePrice_lte: 0,
+    });
   };
 
   return (

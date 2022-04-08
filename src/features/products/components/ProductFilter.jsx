@@ -10,7 +10,7 @@ ProductFilter.propTypes = {
   filter: PropTypes.object,
 };
 
-function ProductFilter({ onChange, filter, loading }) {
+function ProductFilter({ onChange, filter }) {
   const handleCategoryChange = (newCategoryId) => {
     if (!onChange) return;
 
