@@ -3,6 +3,9 @@ import { Pagination } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 import productApi from 'api/productApi';
 import React, { useEffect, useState } from 'react';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import FilterView from '../components/FilterView';
 import ProductFilter from '../components/ProductFilter';
 import ProductList from '../components/ProductList';
@@ -34,18 +37,33 @@ const useStyles = makeStyles((theme) => ({
 
 function ListPage(props) {
   const classes = useStyles();
+
+  const history = useHistory();
+  const location = useLocation();
+  const params = queryString.parse(location.search);
+
   const [productList, setProductList] = useState([]);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 9,
     total: 9,
   });
+
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState({
-    _page: 1,
-    _limit: 9,
+    ...params,
+    _page: Number.parseInt(params._page) || 1,
+    _limit: Number.parseInt(params._limit) || 9,
     _sort: 'salePrice:ASC',
   });
+
+  useEffect(() => {
+    //TODO: Sync filter to URL
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filter),
+    });
+  }, [history, filter]);
 
   useEffect(() => {
     (async () => {
