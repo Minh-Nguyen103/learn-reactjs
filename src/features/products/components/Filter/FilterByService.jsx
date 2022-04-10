@@ -30,6 +30,8 @@ function FilterByService({ onChange, filter }) {
   const handleChange = (e) => {
     if (!onChange) return;
 
+    console.log('hahahah');
+
     const { name, checked } = e.target;
     onChange({ [name]: checked });
   };
