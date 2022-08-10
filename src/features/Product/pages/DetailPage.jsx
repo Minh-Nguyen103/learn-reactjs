@@ -1,4 +1,7 @@
-import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Box, CircularProgress, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
+import ProductThumbnail from '../components/ProductThumbnail';
+import useProductDetail from '../hook/useProductDetail';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -13,17 +16,31 @@ const useStyles = makeStyles((theme) => ({
     flex: '1 1 0',
     padding: theme.spacing(1.5),
   },
+
+  loadingProgress: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+  },
 }));
 
 function DetailPage() {
   const classes = useStyles();
+  const { productId } = useParams();
+
+  const { product, loading } = useProductDetail(productId);
+
+  if (loading) {
+    return <CircularProgress className={classes.loadingProgress} />;
+  }
+
   return (
     <Box>
       <Container>
         <Paper elevation={0}>
           <Grid container>
             <Grid item className={classes.left}>
-              Thumbnail
+              <ProductThumbnail product={product} />
             </Grid>
             <Grid item className={classes.right}>
               Product info{' '}
