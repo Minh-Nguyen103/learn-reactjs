@@ -1,5 +1,5 @@
 // import "./App.css";
-import ProductFeature from 'features/products';
+import ProductFeature from 'features/Product';
 import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
