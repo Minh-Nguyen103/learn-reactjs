@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+import ProductInfo from '../components/ProductInfo';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hook/useProductDetail';
 
@@ -43,7 +44,7 @@ function DetailPage() {
               <ProductThumbnail product={product} />
             </Grid>
             <Grid item className={classes.right}>
-              Product info{' '}
+              <ProductInfo product={product} />
             </Grid>
           </Grid>
         </Paper>
