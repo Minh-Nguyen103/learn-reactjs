@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+import AddToCardForm from '../components/AddToCardForm';
 import ProductInfo from '../components/ProductInfo';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hook/useProductDetail';
@@ -35,6 +36,10 @@ function DetailPage() {
     return <CircularProgress className={classes.loadingProgress} />;
   }
 
+  const handleAddToCardSubmit = (values) => {
+    console.log('Form submit:', values);
+  };
+
   return (
     <Box>
       <Container>
@@ -45,6 +50,7 @@ function DetailPage() {
             </Grid>
             <Grid item className={classes.right}>
               <ProductInfo product={product} />
+              <AddToCardForm onSubmit={handleAddToCardSubmit} />
             </Grid>
           </Grid>
         </Paper>
