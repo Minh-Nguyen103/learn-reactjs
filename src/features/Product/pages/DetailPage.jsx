@@ -1,7 +1,11 @@
 import { Box, CircularProgress, Container, Grid, makeStyles, Paper } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import AddToCardForm from '../components/AddToCardForm';
+import ProductAdditional from '../components/ProductAdditional';
+import ProductDescription from '../components/ProductDescription';
 import ProductInfo from '../components/ProductInfo';
+import ProductMenu from '../components/ProductMenu';
+import ProductReviews from '../components/ProductReviews';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hook/useProductDetail';
 
@@ -28,7 +32,10 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailPage() {
   const classes = useStyles();
-  const { productId } = useParams();
+  const {
+    params: { productId },
+    url,
+  } = useRouteMatch();
 
   const { product, loading } = useProductDetail(productId);
 
@@ -54,6 +61,12 @@ function DetailPage() {
             </Grid>
           </Grid>
         </Paper>
+        <ProductMenu />
+        <Switch>
+          <Route path={url} exact component={ProductDescription} />
+          <Route path={`${url}/additional`} component={ProductAdditional} />
+          <Route path={`${url}/reviews`} component={ProductReviews} />
+        </Switch>
       </Container>
     </Box>
   );
