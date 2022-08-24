@@ -63,9 +63,17 @@ function DetailPage() {
         </Paper>
         <ProductMenu />
         <Switch>
-          <Route path={url} exact component={ProductDescription} />
-          <Route path={`${url}/additional`} component={ProductAdditional} />
-          <Route path={`${url}/reviews`} component={ProductReviews} />
+          <Route path={url} exact>
+            <ProductDescription product={product} />
+          </Route>
+
+          <Route path={`${url}/additional`}>
+            <ProductAdditional />
+          </Route>
+
+          <Route path={`${url}/reviews`}>
+            <ProductReviews />
+          </Route>
         </Switch>
       </Container>
     </Box>
