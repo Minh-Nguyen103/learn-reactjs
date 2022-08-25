@@ -1,4 +1,5 @@
 // import "./App.css";
+import CartFeature from 'features/Cart';
 import ProductFeature from 'features/Product';
 import React from 'react';
 import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
@@ -21,6 +22,7 @@ function App() {
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={SongFeature} />
         <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeature} />
 
         <Route component={NotFound} />
       </Switch>

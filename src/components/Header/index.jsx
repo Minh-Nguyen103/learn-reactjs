@@ -1,4 +1,4 @@
-import { Box, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { Badge, Box, IconButton, Menu, MenuItem, Modal, Paper } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -6,11 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { AccountCircle, Close } from '@material-ui/icons';
+import { AccountCircle, CheckCircle, Close, ShoppingCart } from '@material-ui/icons';
 import FaceIcon from '@material-ui/icons/Face';
 import Login from 'features/Auth/components/Login';
 import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
+import { hideMiniCart } from 'features/Cart/cartSlice';
+import { cartItemsCountSelector } from 'features/Cart/selector';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
@@ -38,6 +40,28 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     cursor: 'pointer',
   },
+
+  paper: {
+    position: 'absolute',
+    width: 300,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 2),
+  },
+
+  box: {
+    display: 'flex',
+    marginBottom: theme.spacing(1),
+  },
+
+  iconCheck: {
+    color: theme.palette.success.main,
+    marginRight: theme.spacing(1),
+  },
+
+  btn: {
+    color: 'white',
+    backgroundColor: 'red',
+  },
 }));
 
 const MODE = {
@@ -54,7 +78,8 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const cartItemsCount = useSelector(cartItemsCountSelector);
+  const showMiniCart = useSelector((state) => state.cart.showMiniCart);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -63,6 +88,10 @@ export default function Header() {
     if (reason !== 'backdropClick') {
       setOpen(false);
     }
+  };
+
+  const handleCloseModal = () => {
+    dispatch(hideMiniCart());
   };
 
   const handleAccountClick = (e) => {
@@ -106,6 +135,32 @@ export default function Header() {
               Login
             </Button>
           )}
+
+          <IconButton aria-label="show 4 new mails" color="inherit">
+            <Badge badgeContent={cartItemsCount} color="secondary">
+              <ShoppingCart />
+              <Modal
+                open={showMiniCart}
+                onClose={handleCloseModal}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+              >
+                <Paper elevation={0} className={classes.paper}>
+                  <IconButton size="small" className={classes.close} onClick={handleCloseModal}>
+                    <Close />
+                  </IconButton>
+                  <Box className={classes.box}>
+                    <CheckCircle className={classes.iconCheck} />
+                    <Typography variant="body2">Thêm vào giỏ hàng thành công!</Typography>
+                  </Box>
+
+                  <Button variant="outlined" className={classes.btn}>
+                    Xem giỏ hàng và thanh toán
+                  </Button>
+                </Paper>
+              </Modal>
+            </Badge>
+          </IconButton>
 
           {isLoggedIn && (
             <IconButton color="inherit" onClick={handleAccountClick}>

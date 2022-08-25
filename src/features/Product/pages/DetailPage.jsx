@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import AddToCardForm from '../components/AddToCardForm';
 import ProductAdditional from '../components/ProductAdditional';
@@ -8,6 +9,7 @@ import ProductMenu from '../components/ProductMenu';
 import ProductReviews from '../components/ProductReviews';
 import ProductThumbnail from '../components/ProductThumbnail';
 import useProductDetail from '../hook/useProductDetail';
+import { addToCart, showMiniCart } from 'features/Cart/cartSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -37,14 +39,23 @@ function DetailPage() {
     url,
   } = useRouteMatch();
 
+  const dispatch = useDispatch();
+
   const { product, loading } = useProductDetail(productId);
 
   if (loading) {
     return <CircularProgress className={classes.loadingProgress} />;
   }
 
-  const handleAddToCardSubmit = (values) => {
-    console.log('Form submit:', values);
+  const handleAddToCardSubmit = ({ quantity }) => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        product,
+        quantity,
+      })
+    );
+    dispatch(showMiniCart());
   };
 
   return (
